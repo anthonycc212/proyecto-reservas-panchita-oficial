@@ -40,6 +40,9 @@ private JTextArea textAreaReporte;
     /**
      * Consulta los datos de reservas_eliminadas y genera el reporte formateado.
      */
+    /**
+     * Consulta los datos de reservas_eliminadas y genera el reporte formateado.
+     */
     private void generarReporte() {
         
         // Consulta SQL ajustada a las 13 columnas de tu tabla
@@ -109,6 +112,6 @@ private JTextArea textAreaReporte;
         }
         
         // Mostrar el reporte en el JTextArea
-        textAreaReporte.setText(reporte.toString());   // Mostrar el reporte en el JTextArea
+        textAreaReporte.setText(reporte.toString());
     }
 }

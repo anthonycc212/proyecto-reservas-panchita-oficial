@@ -23,7 +23,7 @@ public class frmlogin extends javax.swing.JFrame {
         initComponents(); // Este método es generado automáticamente por NetBeans
         this.setLocationRelativeTo(null);
         txtCorreo.setText("admin@restaurante.com");
-        txtPass.setText("Admin123");
+        txtPass.setText("Admin123-");
         barra.setVisible(false);
         ImageIcon img = new ImageIcon(getClass().getResource("/imagenes/user.png"));
         this.setIconImage(img.getImage());
@@ -210,7 +210,7 @@ public class frmlogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
  RegistroUsuario newframe = new RegistroUsuario();
 newframe.setVisible(true);
-this.dispose();// TODO add your handling code here:
+// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

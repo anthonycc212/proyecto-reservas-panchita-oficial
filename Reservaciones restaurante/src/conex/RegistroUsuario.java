@@ -89,15 +89,9 @@ public class RegistroUsuario extends JFrame {
         btnLimpiar.setBounds(420, 220, 120, 30);
         add(btnLimpiar);
 
-        // Tabla 
-        String[] columnas = {"ID", "Nombre", "Correo", "Rol", "Teléfono"};
-        modelo = new DefaultTableModel(columnas, 0);
-        tablaUsuarios = new JTable(modelo);
-        JScrollPane scroll = new JScrollPane(tablaUsuarios);
-        scroll.setBounds(50, 280, 640, 200);
-        add(scroll);
+       
 
-        listarUsuarios(); // Muestra todos los usuarios al iniciar
+       
 
         //  Acciones 
         btnRegistrar.addActionListener(e -> {
@@ -119,39 +113,35 @@ if (!validarContrasena(contrasena)) {
 }
             if (dao.registrar(u)) {
                 JOptionPane.showMessageDialog(this, "Usuario registrado correctamente");
-                listarUsuarios();
+              
                 limpiarCampos();
             }
         });
 
-        btnBuscar.addActionListener(e -> {
-            String correo = txtCorreo.getText();
-            if (correo.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Ingrese un correo para buscar");
-                return;
-            }
+    btnBuscar.addActionListener(e -> {
 
-          Usuario u = dao.buscarPorCorreo(txtCorreo.getText());
+    String correo = txtCorreo.getText().trim();
 
-if (u != null) {
-    // 1️⃣ Revisar estado
-    if (u.getEstado() != 1) {
-        JOptionPane.showMessageDialog(this, "Usuario deshabilitado, no puede iniciar sesión");
-        return; // detiene el login
-    }
+    Usuario u = dao.buscarPorCorreo(correo);
 
-    // 2️⃣ Verificar contraseña
-    if (u.getContrasena().equals(txtContrasena.getText())) {
-        // Abrir ventana principal
-        JOptionPane.showMessageDialog(this, "Bienvenido " + u.getNombre_completo());
-        // ejemplo: new MenuPrincipal().setVisible(true);
+    if (u != null) {
+
+        // Cargar datos
+        txtNombre.setText(u.getNombre_completo());
+        txtCorreo.setText(u.getCorreo());
+        txtContrasena.setText(u.getContrasena());
+        txtTelefono.setText(u.getTelefono());
+
+        //  Bloquear campos NO editables
+        txtNombre.setEditable(false);
+        txtCorreo.setEditable(false);
+
+        JOptionPane.showMessageDialog(this,"Datos cargados correctamente");
+
     } else {
-        JOptionPane.showMessageDialog(this, "Contraseña incorrecta");
+        JOptionPane.showMessageDialog(this,"Usuario no encontrado");
     }
-} else {
-    JOptionPane.showMessageDialog(this, "Usuario no encontrado");
-}
-        });
+});
 
         btnModificar.addActionListener(e -> {
             String correo = txtCorreo.getText();
@@ -168,7 +158,7 @@ if (u != null) {
 
             if (dao.modificar(u)) {
                 JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
-                listarUsuarios();
+               
                 limpiarCampos();
             }
         });
@@ -184,7 +174,7 @@ if (u != null) {
             if (confirm == JOptionPane.YES_OPTION) {
                 if (dao.eliminar(correo)) {
                     JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente");
-                    listarUsuarios();
+                   
                     limpiarCampos();
                 }
             }
@@ -194,20 +184,7 @@ if (u != null) {
     }
 
     //  Métodos auxiliares lista
-    private void listarUsuarios() {
-        modelo.setRowCount(0);
-        List<Usuario> lista = dao.listar();
-        for (Usuario u : lista) {
-            modelo.addRow(new Object[]{
-                u.getId(),
-                u.getNombre_completo(),
-                u.getCorreo(),
-                u.getRol(),
-                u.getTelefono()
-            });
-        }
-    }
-
+    
     private void limpiarCampos() {
         txtNombre.setText("");
         txtCorreo.setText("");

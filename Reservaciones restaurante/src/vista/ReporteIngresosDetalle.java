@@ -29,6 +29,7 @@ public class ReporteIngresosDetalle {
     }
 
     // Resultado final (lista + suma total)
+    // Resultado final (lista + suma total)
     public static class ResultadoIngresos {
         public final List<Ingreso> ingresos;
         public final double sumaTotal;
@@ -69,7 +70,7 @@ public class ReporteIngresosDetalle {
             System.err.println("Error obtenerIngresosSemanales: " + e.getMessage());
         }
 
-        return new ResultadoIngresos(listaIngresos, suma);    // Mostrar el reporte en el JTextArea
+        return new ResultadoIngresos(listaIngresos, suma);
     }
     
 }

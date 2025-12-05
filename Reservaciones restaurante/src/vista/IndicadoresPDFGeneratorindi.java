@@ -178,7 +178,7 @@ documento.add(new Paragraph("\n"));
         } finally {
             try {
                 if (con != null) con.close();
-            } catch (SQLException ignored) { /* Ignorar error al cerrar */ }   // Mostrar el reporte en el JTextArea
+            } catch (SQLException ignored) { /* Ignorar error al cerrar */ }
         }
     }
 }

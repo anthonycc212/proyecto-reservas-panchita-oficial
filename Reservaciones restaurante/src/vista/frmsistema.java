@@ -130,8 +130,13 @@ public class frmsistema extends javax.swing.JFrame {
     btnadministrador.setVisible(false);  // Oculta el botón
    btnreportes.setVisible(false);           // Oculta el panel
 }
+           if (usuarioLogueado.getRol().equalsIgnoreCase("cliente")) {
+   estadodevariable.setVisible(false);  // Oculta el botón
+            // Oculta el panel
+}
     
     }
+    
     
 
     // Método para cargar salas en la tabla
@@ -1860,7 +1865,7 @@ if (!validarContrasena(password)) {
         }
 
     }//GEN-LAST:event_btnregistrarActionPerformed
-
+  GestionUsuarios gestion = new GestionUsuarios();
     private void btnsalasecundariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalasecundariaActionPerformed
         salaSeleccionada = "Sala Secundaria"; // 🔴 Esta línea es esencial
         jTabbedPane1.setSelectedIndex(3);

@@ -63,7 +63,7 @@ public class ReportePDFGeneratoreli {
     
     // Ruta donde se guardará el PDF
     private static final String RUTA_ARCHIVO = "ReporteReservasEliminadas.pdf";
-
+ // Ruta donde se guardará el PDF
     public static void generarReportePDFeli() {
         
         // Consulta SQL ajustada a las 13 columnas de tu tabla
@@ -146,7 +146,7 @@ public class ReportePDFGeneratoreli {
         } finally {
             try {
                 if (con != null) con.close();
-            } catch (SQLException ignored) {}   // Mostrar el reporte en el JTextArea
+            } catch (SQLException ignored) {}
         }
     }
     

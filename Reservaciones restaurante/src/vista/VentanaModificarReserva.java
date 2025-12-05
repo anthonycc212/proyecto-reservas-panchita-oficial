@@ -109,26 +109,41 @@ public class VentanaModificarReserva extends JDialog {
     }
 
     // ? Cargar reservas en la tabla
-    private void cargarReservas() {
+    
+ private void cargarReservas() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaReservas.getModel();
+        modelo.setRowCount(0);
+
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/baserestaurante", "root", "")) {
-            modelo.setRowCount(0); // limpiar tabla
-            String sql = "SELECT id, mesa, cliente, fecha, hora, Precio FROM reservas";
+
+            String sql = "SELECT r.id, r.mesa, r.cliente, r.fecha, r.hora, r.Precio, u.telefono " +
+                    "FROM reservas r " +
+                    "LEFT JOIN usuarios u ON r.cliente = u.nombre_completo";
+
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
+
+                String telefono = rs.getString("telefono");
+                if(telefono != null) {
+                    System.out.println("Dato traído de tabla usuarios (Teléfono): " + telefono);
+                }
+
                 modelo.addRow(new Object[]{
                         rs.getInt("id"),
                         rs.getString("mesa"),
-                        rs.getString("cliente"),
+                        rs.getString("cliente"), // Aquí mostramos el nombre que ya está en la reserva
                         rs.getString("fecha"),
                         rs.getString("hora"),
                         rs.getBigDecimal("Precio")
                 });
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar reservas: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
+
 
     // 🔹 Modificar reserva seleccionada
     private void modificarReserva() {

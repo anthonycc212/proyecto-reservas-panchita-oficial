@@ -7,6 +7,7 @@ package conex;
 import java.util.*;
 import javax.swing.JOptionPane;
 
+
 public class UsuarioDAO {
     
     Connection con;
@@ -37,7 +38,7 @@ public void setEstado(int estado) {
         }
     }
 
-    // 🔴 DESACTIVAR USUARIO
+    //  DESACTIVAR USUARIO
     public boolean desactivarUsuario(int id) {
         String sql = "UPDATE usuarios SET estado = 0 WHERE id = ?";
 
@@ -97,27 +98,44 @@ public List<Usuario> listar() {
 
     return lista;
 }
-    public Usuario buscarPorCorreo(String correo) {
-    String sql = "SELECT * FROM usuarios WHERE correo = ?";
+   public Usuario buscarPorCorreo(String correo) {
+
     Usuario u = null;
+
+    String sql = "SELECT * FROM usuarios WHERE correo=?";
+
     try {
         con = Conexion.getConexion();
         ps = con.prepareStatement(sql);
         ps.setString(1, correo);
+
         rs = ps.executeQuery();
-        if (rs.next()) {
+
+        if(rs.next()) {
+
             u = new Usuario();
+
             u.setId(rs.getInt("id"));
             u.setNombre_completo(rs.getString("nombre_completo"));
             u.setCorreo(rs.getString("correo"));
             u.setContrasena(rs.getString("contrasena"));
             u.setRol(rs.getString("rol"));
             u.setTelefono(rs.getString("telefono"));
-            u.setEstado(rs.getInt("estado")); // ✅ AÑADE ESTA LÍNEA
+            u.setEstado(rs.getInt("estado"));
+
+            // ✅ DEBUG para confirmar datos reales
+            System.out.println(
+                "CARGADO => " +
+                u.getNombre_completo() + ", " +
+                u.getCorreo() + ", " +
+                u.getTelefono()
+            );
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al buscar usuario: " + e.getMessage());
+
+    } catch(Exception e) {
+        JOptionPane.showMessageDialog(null,"Error buscarPorCorreo: "+ e.getMessage());
     }
+
     return u;
 }
 

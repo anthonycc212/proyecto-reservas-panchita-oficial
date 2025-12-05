@@ -146,7 +146,7 @@ public class ReportePDFGeneratoreli {
         } finally {
             try {
                 if (con != null) con.close();
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {}   // Mostrar el reporte en el JTextArea
         }
     }
     

@@ -109,6 +109,6 @@ private JTextArea textAreaReporte;
         }
         
         // Mostrar el reporte en el JTextArea
-        textAreaReporte.setText(reporte.toString());
+        textAreaReporte.setText(reporte.toString());   // Mostrar el reporte en el JTextArea
     }
 }

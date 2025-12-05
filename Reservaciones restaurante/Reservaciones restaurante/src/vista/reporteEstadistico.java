@@ -113,7 +113,7 @@ public class reporteEstadistico extends JDialog {
         }
         
         // Mostrar el reporte en el JTextArea
-        textAreaReporte.setText(reporte.toString());
+        textAreaReporte.setText(reporte.toString());   // Mostrar el reporte en el JTextArea
     } 
    
 }

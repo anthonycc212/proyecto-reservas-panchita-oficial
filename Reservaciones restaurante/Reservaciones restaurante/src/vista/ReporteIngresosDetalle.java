@@ -69,7 +69,7 @@ public class ReporteIngresosDetalle {
             System.err.println("Error obtenerIngresosSemanales: " + e.getMessage());
         }
 
-        return new ResultadoIngresos(listaIngresos, suma);
+        return new ResultadoIngresos(listaIngresos, suma);    // Mostrar el reporte en el JTextArea
     }
     
 }

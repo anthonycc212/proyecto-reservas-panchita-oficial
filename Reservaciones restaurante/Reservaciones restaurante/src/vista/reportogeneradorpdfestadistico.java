@@ -211,7 +211,7 @@ public class reportogeneradorpdfestadistico {
         } finally {
             try {
                 if (con != null) con.close();
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {}   // Mostrar el reporte en el JTextArea
         }
-    } // Cierre del método generarReportePDFestadistico
+    } // Cierre del método generarReportePDFestadistico 
     }

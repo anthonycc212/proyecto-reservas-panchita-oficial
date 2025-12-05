@@ -1,6 +1,7 @@
 package conex;
 
 import java.sql.*;
+import conex.LoginFactory;
 
 public class loginDao {
 
@@ -18,13 +19,14 @@ public class loginDao {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    usuario = new login();
-                    usuario.setId(rs.getInt("id"));
-                    usuario.setCorreo(rs.getString("correo"));
-                    usuario.setContrasena(rs.getString("contrasena"));
-                    usuario.setNombreCompleto(rs.getString("nombre_completo"));
-                    usuario.setRol(rs.getString("rol"));
-                    usuario.setTelefono(rs.getString("telefono")); // <-- LÍNEA AÑADIDA
+                  usuario = LoginFactory.crearLogin(
+    rs.getInt("id"),
+    rs.getString("correo"),
+    rs.getString("contrasena"),
+    rs.getString("nombre_completo"),
+    rs.getString("rol"),
+    rs.getString("telefono")
+);
                 }
             }
         } catch (SQLException e) {

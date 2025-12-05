@@ -54,23 +54,25 @@ public void setEstado(int estado) {
             return false;
         }
     }
-    public boolean registrar(Usuario u) {
-        String sql = "INSERT INTO usuarios (nombre_completo, correo, contrasena, rol, telefono) VALUES (?, ?, ?, ?, ?)";
-        try {
-            con = Conexion.getConexion();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, u.getNombre_completo());
-            ps.setString(2, u.getCorreo());
-            ps.setString(3, u.getContrasena());
-            ps.setString(4, u.getRol());
-            ps.setString(5, u.getTelefono());
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al registrar usuario: " + e.getMessage());
-            return false;
-        }
+ public boolean registrar(Usuario u) {
+    String sql = "INSERT INTO usuarios (nombre_completo, correo, contrasena, rol, telefono, estado) VALUES (?, ?, ?, ?, ?, ?)";
+    try {
+        con = Conexion.getConexion();
+        ps = con.prepareStatement(sql);
+        ps.setString(1, u.getNombre_completo());
+        ps.setString(2, u.getCorreo());
+        ps.setString(3, u.getContrasena());
+        ps.setString(4, u.getRol());
+        ps.setString(5, u.getTelefono());
+        ps.setInt(6, 1); // <--- estado activado por defecto
+        ps.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace(); // para ver error completo
+        JOptionPane.showMessageDialog(null, "Error al registrar usuario: " + e.getMessage());
+        return false;
     }
+}
 public List<Usuario> listar() {
     List<Usuario> lista = new ArrayList<>();
     String sql = "SELECT * FROM usuarios";

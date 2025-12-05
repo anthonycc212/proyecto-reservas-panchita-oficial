@@ -18,6 +18,7 @@ public class VentanaModificarReserva extends JDialog {
     private JButton btnGuardar, btnCancelar;
     private JTable tablaReservas;
     private DefaultTableModel modelo;
+private JButton btnCargar; 
 
     public VentanaModificarReserva(JFrame parent) {
         super(parent, "Modificar Reserva", true);
@@ -71,10 +72,17 @@ public class VentanaModificarReserva extends JDialog {
         btnGuardar = new JButton("Guardar cambios");
         btnGuardar.setBounds(40, 280, 150, 35);
         add(btnGuardar);
+        btnCargar = new JButton("Cargar datos");
+btnCargar.setBounds(210, 30, 120, 25); // junto al campo de ID
+add(btnCargar);
+
+// Acción del botón
+
 
         btnCancelar = new JButton("Cerrar");
         btnCancelar.setBounds(200, 280, 100, 35);
         add(btnCancelar);
+        
 
         //Tabla 
         modelo = new DefaultTableModel();
@@ -88,8 +96,9 @@ public class VentanaModificarReserva extends JDialog {
         // botones
         btnGuardar.addActionListener(e -> modificarReserva());
         btnCancelar.addActionListener(e -> dispose());
-
+btnCargar.addActionListener(e -> cargarDatosPorId());
         // Al hacer clic en una fila de la tabla, llenar los campos
+        
         tablaReservas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int fila = tablaReservas.getSelectedRow();
@@ -109,7 +118,48 @@ public class VentanaModificarReserva extends JDialog {
     }
 
     // ? Cargar reservas en la tabla
+    private void cargarDatosPorId() {
+   
+    // 🔹 Validación del ID
+    String idStr = txtId.getText().trim(); // eliminamos espacios
+
+    if (idStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese un ID de reserva.");
+        return;
+    }
+
+    int id;
+    try {
+        id = Integer.parseInt(idStr); // convertimos a número
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "El ID debe ser un número válido.");
+        return;
+    }
+
+    // 🔹 Consulta a la base de datos
     
+
+    try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/baserestaurante", "root", "")) {
+        String sql = "SELECT r.mesa, r.cliente, r.fecha, r.hora, r.Precio FROM reservas r WHERE r.id = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, Integer.parseInt(idStr));
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            txtMesa.setText(rs.getString("mesa"));
+            txtCliente.setText(rs.getString("cliente"));
+            txtFecha.setText(rs.getString("fecha"));
+            txtHora.setText(rs.getString("hora"));
+            txtPrecio.setText(rs.getBigDecimal("Precio").toString());
+
+            txtId.setEditable(false); // Bloqueamos el ID
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró la reserva con ese ID.");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+}
  private void cargarReservas() {
         DefaultTableModel modelo = (DefaultTableModel) tablaReservas.getModel();
         modelo.setRowCount(0);
